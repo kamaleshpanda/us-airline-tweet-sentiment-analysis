@@ -57,7 +57,7 @@ if not st.sidebar.checkbox("Hide", True, key=2):
         st.write(modified_data)
 
 st.sidebar.subheader("Breakdown Airline Tweets by Sentiment")
-choice = st.sidebar.multiselect("Pick Airlines",('US Airways','United','SouthWest','Delta','American'),key=4)
+choice = st.sidebar.multiselect("Pick Airlines",('US Airways','United','Delta','American'),key=4)
 
 if len(choice)>0:
     choice_data = data[data['airline'].isin(choice)]
