@@ -17,7 +17,7 @@ def loaddata():
     dataframe['tweet_created'] = pd.to_datetime(dataframe['tweet_created'])
     return dataframe
 data = loaddata()
-## st.write(data) ## ??to show all the data .... used only for debugging puprose
+## st.write(data) ## ??to show all the data .... used only for debugging purpose
 st.sidebar.subheader("Show Random tweets")
 random_tweet = st.sidebar.radio("Sentiment",('positive','negative','neutral'))
 ## st.sidebar.markdown(data.query("airline_sentiment == @random_tweet").sample(n=2)["text"].iat[0])
