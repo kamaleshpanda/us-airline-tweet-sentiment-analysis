@@ -6,9 +6,11 @@ import matplotlib.pyplot as plt
 
 st.title("Sentiment of Tweets About US Airlines")
 st.sidebar.title("Sentiment of Tweets About US Airlines")
-st.markdown("This is a streamlit dashboard to analyze sentiments of tweets 🛬🛩️")
-st.sidebar.markdown("This is a streamlit dashboard to analyze sentiments of tweets 🛬🛩️")
-
+st.markdown("""
+This interactive dashboard analyzes customer sentiment toward major U.S. airlines using Twitter data.  
+Explore trends, service issues, and overall public perception through dynamic visualizations.
+""")
+st.sidebar.markdown("Use filters to explore airline sentiment insights.")
 Data_Path = r"C:\Users\KIIT0001\PycharmProjects\us-airline-tweet-sentiment-analysis\Tweets_cleaned.csv"
 
 @st.cache_data(persist=True)
