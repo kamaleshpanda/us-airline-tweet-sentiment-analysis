@@ -11,7 +11,9 @@ This interactive dashboard analyzes customer sentiment toward major U.S. airline
 Explore trends, service issues, and overall public perception through dynamic visualizations.
 """)
 st.sidebar.markdown("Use filters to explore airline sentiment insights.")
-Data_Path = r"C:\Users\KIIT0001\PycharmProjects\us-airline-tweet-sentiment-analysis\Tweets_cleaned.csv"
+#Data_Path = r"C:\Users\KIIT0001\PycharmProjects\us-airline-tweet-sentiment-analysis\Tweets_cleaned.csv"
+#we are now not using local computer path
+Data_Path = "Tweets_cleaned.csv"
 
 @st.cache_data(persist=True)
 def loaddata():
