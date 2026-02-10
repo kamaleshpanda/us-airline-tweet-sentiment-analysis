@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.express as px
+from wordcloud import WordCloud,STOPWORDS
+import matplotlib.pyplot as plt
 
 st.title("Sentiment of Tweets About US Airlines")
 st.sidebar.title("Sentiment of Tweets About US Airlines")
@@ -48,8 +49,44 @@ if not st.sidebar.checkbox("Hide", True, key=2):
     st.map(modified_data[['lat', 'lon']])
     st.caption("Locations are simulated for visualization purposes")
 
-if st.sidebar.checkbox("Show Raw Data", False, key=3):
-    st.write(modified_data)
+    if st.sidebar.checkbox("Show Raw Data", False, key=3):
+        st.write(modified_data)
 
+st.sidebar.subheader("Breakdown Airline Tweets by Sentiment")
+choice = st.sidebar.multiselect("Pick Airlines",('US Airways','United','SouthWest','Delta','American'),key=4)
 
+if len(choice)>0:
+    choice_data = data[data['airline'].isin(choice)]
+    fig_choice = px.histogram(choice_data,x='airline',y='airline_sentiment',histfunc='count',color='airline_sentiment'
+                              ,facet_col='airline_sentiment',labels={'airline_sentiment':'tweets'},height=600,width=800)
+    st.plotly_chart(fig_choice)
 
+##Facets = splitting one big chart into multiple small charts based on a category.
+## So Plotly created separate mini charts for:Positive,Negative and Neutral tweets
+
+st.sidebar.header("Word Cloud")
+word_sentiment = st.sidebar.radio('Display word cloud for what sentiment',('positive','negative','neutral'))
+
+if not st.sidebar.checkbox("Hide",True,key=6):
+    st.header('Word cloud for %s sentiment'%word_sentiment)
+    df = data[data['airline_sentiment'] == word_sentiment]
+    words = ' '.join(df['text'])
+    processed_words = ' '.join([word for word in words.split()if 'http' not in word
+                                and not word.startswith('@')])
+##@Delta I am VERY disappointed 😡😡!! Flight delayed again... check http://t.co/abc #worst
+##this gets cleaned to "I am VERY disappointed 😡😡!! Flight delayed again... check #worst"
+    # Create word cloud
+    wordcloud = WordCloud(
+        width=800,
+        height=400,
+        background_color='white',
+        stopwords=STOPWORDS
+    ).generate(processed_words)
+    #plt.imshow(wordcloud)
+    #plt.xticks([]) ##removes numbers/ticks from X axis
+    #plt.yticks([]) ####removes numbers/ticks from Y axis
+    #st.pyplot() # old way (top 3 lines )
+    fig, ax = plt.subplots(figsize=(10,5)) #width 10 height 5 inch
+    ax.imshow(wordcloud, interpolation='bilinear') #displays image and smooths the image
+    ax.set_axis_off() #removes ticks from both axis
+    st.pyplot(fig)
